@@ -26,8 +26,6 @@ if(check_login()==true) {
 		}
 	} else if($action=="getChat") {
 		getChat($to_roll,$enroll);
-	} else if($action=="setWritingStatus") {
-		setWritingStatus($enroll,"yes");
 	} else if($action=="checkMyOnlineStatus") {
 		checkMyOnlineStatus($enroll);
 	} else if($action=="setOnlineStatus") {

@@ -53,7 +53,6 @@ function sendChat($to_enroll,$to_user,$msg,$enroll,$username) {
     mysql_query($newsql);
 	}
 
-	setWritingStatus($enroll,"no");
 	echo "<root success='yes'><user>".$to_user."</user></root>";
 }
 
@@ -61,14 +60,6 @@ function getChat($to_enroll,$enroll) {
 
 	$index = 0;
 	$t = time()-5;
-	$sql = "SELECT writing FROM user_status WHERE enroll=".$to_enroll." AND time>=".$t;
-	$result = mysql_query($sql);
-	while($r = mysql_fetch_assoc($result)) {
-		if($r['writing']=="yes")
-			$status = "yes";
-		else
-			$status = "no";
-	}
 
 	$sql = "SELECT from_user,from_enroll,msg FROM chat_messages WHERE ((to_enroll='".$to_enroll."' AND from_enroll='".$enroll."') OR (to_enroll='".$enroll."' AND from_enroll='".$to_enroll."')) ORDER BY msg_id DESC LIMIT 20";
   $result = mysql_query($sql);
@@ -94,20 +85,6 @@ function getLastChatId($to_enroll) {
   }
 
 	return $chat_id;
-}
-
-function setWritingStatus($enroll,$s) {
-	$sql = "SELECT NULL FROM user_status WHERE enroll='".$enroll."' LIMIT 1";
-	$result = mysql_query($sql);
-	$count = mysql_num_rows($result);
-	if($count==1) {
-		$sql = "UPDATE user_status SET writing='".$s."', time=".time()." WHERE enroll=".$enroll;
-		mysql_query($sql);
-	}
-	else {
-		$sql = "INSERT INTO user_status (enroll,writing,time) VALUES (".$enroll.", '".$s."', ".time().")";
-		mysql_query($sql);
-	}
 }
 
 function popUpChat($enroll) {

@@ -30,19 +30,19 @@ if($err != "") {
 	</head>
 	<body>
 		<div class="container">
-			<div class="wrapper">
+			<div class="form-position">
 				<span id="err_submit"><?php echo $err_msg; ?></span>
 				<form action="submit.php" method="post" name="Register_Form" class="form-signin">
 						<h3 class="form-signin-heading">Pričalica, registriraj se!</h3>
-						<hr class="colorgraph"><br>
+						<hr class="colorgraph" /><br />
 
-						<input type="text" class="form-control" name="user" placeholder="Username" required="true" autofocus="true" />
-						<input type="text" class="form-control" name="enroll" placeholder="Enrollemnt" required="true"/>
-						<input type="password" class="form-control" name="pass" placeholder="Password" required="true"/>
-						<input type="password" class="form-control" name="re-pass" placeholder="Password again" required="true"/>
+						<input type="text" class="form-control" name="user" placeholder="Korisničko ime" required="true" autofocus="true" />
+						<input type="text" class="form-control" name="enroll" placeholder="Id" required="true"/>
+						<input type="password" class="form-control" name="pass" placeholder="Zaporka" required="true"/>
+						<input type="password" class="form-control" name="re-pass" placeholder="Zaporka ponovo" required="true"/>
 
-						<button class="btn btn-lg btn-primary btn-block" name="login" value="Register" type="submit">Register</button>
-						<a href='index.php'>Login</a>
+						<button class="btn btn-lg btn-primary btn-block" name="login" value="Register" type="submit">Registriraj se</button>
+						<a href='index.php'>Prijava</a>
 				</form>
 			</div>
 		</div>

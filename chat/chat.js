@@ -15,6 +15,7 @@ $(document).ready(function(){
 });
 
 function showOnline() {
+  setOnlineStatus("yes");
 	var str = "action=checkMyOnlineStatus";
 	$.ajax({url:"processRequest.php", type:"POST", dataType:"xml", data:""+str+"", success:function(result) {
 		var onlineStatus = $(result).find("root").attr("online");
@@ -22,8 +23,6 @@ function showOnline() {
 			$("div#online_users_box").html("Loading...");
       refreshOnline();
       onlineTimer = setInterval("refreshOnline()",2500);
-		} else {
-			goOffline();
 		}
 	}});
 }
@@ -32,33 +31,8 @@ function refreshOnline() {
   $.ajax({url:"show_online.php", success:function(result){
     $("#users-list").html(result);
     noOfUsers = $(".list-group-item").toArray();
-    $("#onlinetitle").html("Online Users ("+noOfUsers.length+")");
+    $("#onlinetitle").html("Spojeni korisnici ("+noOfUsers.length+")");
   }});
-}
-
-function goOffline() {
-	setOnlineStatus("no");
-	clearInterval(onlineTimer);
-	clearInterval(chatRefreshTimer);
-	clearInterval(popUpTimer);
-	//$("div.chatbox_user").hide();
-	$("div#online_title").text("Offline");
-	$("div#min").hide();
-	$("div#online_users_box").hide();
-	$("div#online_search_box").hide();
-	$("div#online_box").css("height","30px");
-}
-
-function goOnline() {
-	setOnlineStatus("yes");
-	$("div#online_title").text("Who's Online");
-  $("div#min").show();
-  $("div#online_users_box").show();
-  $("div#online_search_box").show();
-	$("div#online_search_box input").val("Search");
-	$("div#online_box").css("height","300px");
-	showOnline();
-	popUpChat();
 }
 
 function setOnlineStatus(onlineStatus) {
@@ -68,39 +42,26 @@ function setOnlineStatus(onlineStatus) {
 
 function chatWith(username,enroll) {
 
-	minimizeAllChats();
+	closeAllChat();
 	if($("div#chatbox_"+enroll).length==0) {
-
-		constructChatbox(enroll,username);
-		startChatSession(enroll);
-		clearInterval(chatRefreshTimer);
-		newmsg="yes";
-		getChat(enroll,username);
-		chatRefreshTimer = setInterval("getChat("+enroll+","+username+")",1500);
+    constructChatbox(enroll,username);
+    startChatSession(enroll);
+    clearInterval(chatRefreshTimer);
+    newmsg="yes";
+    getChat(enroll,username);
+    chatRefreshTimer = setInterval("getChat("+enroll+","+username+")",1500);
 	} else {
-	   restructChatbox(enroll,username);
+    restructChatbox(enroll,username);
 	}
-	$("div#chatbox_"+enroll+" div.chatbox_title").css("background-color","#883");
+  
   $("div#chatbox_"+enroll+" div.chatbox_title").text(username);
 
 }
 
-function minimizeAllChats() {
-
-	$("div#minChat").hide();
-	$("div.chatbox_text").hide();
-	$("div.chatbox_msg").hide();
-	$("div.chatbox_user").css({"position":"relative","top":"205px","cursor":"pointer"});
-
-}
-
-function minimizeChat(roll) {
-
-	$("div#chatbox_"+roll+" div#minChat").hide();
-  $("div#chatbox_"+roll+" div.chatbox_text").hide();
-  $("div#chatbox_"+roll+" div.chatbox_msg").hide();
-  $("div#chatbox_"+roll).css({"position":"relative","top":"205px","cursor":"pointer"});
-
+function closeAllChat() {
+  $("div.chatbox_text").hide();
+  $("div.chatbox_msg").hide();
+  $("div.chatbox_user").hide();
 }
 
 function closeChat(roll) {
@@ -110,22 +71,19 @@ function closeChat(roll) {
 function constructChatbox(enroll,username) {
 
 		$("div#chatbox").append("<div id='chatbox_"+enroll+"' class='chatbox_user' ></div>");
-		$("div#chatbox_"+enroll).append("<div><div class='chatbox_title' onclick='javascript:restructChatbox("+enroll+",&#39;"+username+"&#39;)'>"+username+"</div><div id='minChat' class='opt' onClick='javascript:minimizeChat("+enroll+")'> - </div><div id='closeChat' class='opt' onClick='javascript:closeChat("+enroll+")'>X</div></div>");
+		$("div#chatbox_"+enroll).append("<div><div class='chatbox_title' onclick='javascript:restructChatbox("+enroll+",&#39;"+username+"&#39;)'>"+username+"</div><div id='closeChat' class='opt close_chat' onClick='javascript:closeChat("+enroll+")'>X</div></div>");
 		$("div#chatbox_"+enroll).append("<div class='chatbox_msg'></div>");
-		$("div#chatbox_"+enroll).append("<div class='chatbox_status'></div>");
-		$("div#chatbox_"+enroll).append("<div class='chatbox_text' ><form onSubmit='return sendChat("+enroll+",&#39;"+username+"&#39;)'><input type='text' name='msg' autocomplete='off' onKeyDown='javascript:setWritingStatus("+enroll+",&#39;"+username+"&#39;)'/></form></div>");
+		$("div#chatbox_"+enroll).append("<div class='chatbox_text' ><form onSubmit='return sendChat("+enroll+",&#39;"+username+"&#39;)'><input type='text' name='msg' autocomplete='off' /></form></div>");
 		$("div#chatbox_"+enroll+" div.chatbox_text input").focus();
-		$("div#chatbox_"+enroll+" div.chatbox_msg").html("<div class='err_msg'>Loading previous messages...</div>");
+		$("div#chatbox_"+enroll+" div.chatbox_msg").html("<div class='err_msg'>Učitavanje prijašnjih poruka...</div>");
 
 }
 
 function restructChatbox(roll,name) {
 
-	minimizeAllChats();
 	$("div#chatbox_"+roll).show();
-	$("div#chatbox_"+roll+" div.chatbox_title").css("background-color","#883");
+	$("div#chatbox_"+roll+" div.chatbox_title").css("background-color","#2196F3");
   $("div#chatbox_"+roll+" div.chatbox_title").text(name);
-	$("div#chatbox_"+roll+" div#minChat").show();
 	$("div#chatbox_"+roll+" div.chatbox_msg").show();
 	$("div#chatbox_"+roll+" div.chatbox_text").show();
 	$("div#chatbox_"+roll).css({"position":"relative","top":"0px"});
@@ -172,13 +130,7 @@ function getChat(roll,name) {
 	$.ajax({url:"processRequest.php", type:"POST", data:""+str+"", dataType:"xml",success:function(result) {
 
 		var count = $(result).find("root").attr("count");
-		var sta = $(result).find("root").attr("status");
 		if(count!=0) {
-			if(sta=="yes") {
-        $("div#chatbox_"+roll+" div.chatbox_status").text($("div#chatbox_"+roll+" div.chatbox_title").text()+" is typing...");
-      } else {
-        $("div#chatbox_"+roll+" div.chatbox_status").text("");
-      }
 			$("div#chatbox_"+roll+" div.chatbox_msg").empty();
 			$(result).find("messages").each(function(){
 				user = $(this).find("user").text();
@@ -192,16 +144,15 @@ function getChat(roll,name) {
 				$("div#chatbox_"+roll+" div.chatbox_msg").scrollTop($("div#chatbox_"+roll+" div.chatbox_msg")[0].scrollHeight);
 				if($("div#chatbox_"+roll+" div.chatbox_text input").is(":focus")==false) {
 					setBrowserTitle(name);
-					//playSound();
 	        $("div#chatbox_"+roll+" div.chatbox_text input").focus();
 				}
-				newmsg="no";   //set to no for repetition of chat sound
+				newmsg="no";
 			}
 		}
 
 		else {
 			$("div#chatbox_"+roll+" div.chatbox_msg").empty();
-			$("div#chatbox_"+roll+" div.chatbox_msg").html("<div class='err_msg'>Start your conversation</div>");
+			$("div#chatbox_"+roll+" div.chatbox_msg").html("<div class='err_msg'>Započni razgovor</div>");
 		}
 
 	}});
@@ -224,7 +175,6 @@ function refreshPopUpChat() {
 
 				if($("div#chatbox_"+roll).length==0) {
 					setBrowserTitle(name);
-					//playSound();
 					chatWith(name,roll);
 				}
 				else
@@ -250,19 +200,6 @@ function refreshPopUpChat() {
 	});
 }
 
-function setWritingStatus(roll,name) {
-	var len = $("div#chatbox_"+roll+" div.chatbox_text input").val().length;
-
-	if(len==2 || len==15 || len==30) {
-		var str = "action=setWritingStatus";
-		$.ajax({url:"processRequest.php", type:"POST", data:""+str+""});
-	}
-}
-
 function setBrowserTitle(name) {
-	document.title=name+" says...";
-}
-
-function hello() {
-	alert("helo");
+	document.title=name+" kaze...";
 }

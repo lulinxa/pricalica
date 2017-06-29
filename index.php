@@ -21,16 +21,16 @@
 	<body>
 		<!-- simple login form -->
 		<div class="container">
-			<div class="wrapper">
+			<div class="form-position">
 				<form action="login.php" method="post" name="Login_Form" class="form-signin">
 				    <h3 class="form-signin-heading">Pričalica, prijavi se!</h3>
 					  <hr class="colorgraph"><br>
 
-					  <input type="text" class="form-control" name="user" placeholder="Enrollment" required="true" autofocus="true" />
-					  <input type="password" class="form-control" name="pass" placeholder="Password" required="true"/>
+					  <input type="text" class="form-control" name="user" placeholder="Id" required="true" autofocus="true" />
+					  <input type="password" class="form-control" name="pass" placeholder="Zaporka" required="true"/>
 
-					  <button class="btn btn-lg btn-primary btn-block" name="login" value="Login" type="submit">Login</button>
-						<a href='reg.php'>SignUp</a>
+					  <button class="btn btn-lg btn-primary btn-block" name="login" value="Login" type="submit">Prijava</button>
+						<a href='reg.php'>Registriraj se</a>
 				</form>
 			</div>
 		</div>

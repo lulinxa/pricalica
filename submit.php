@@ -34,8 +34,8 @@ if($pass!=$re_pass) {
 			<body>
 				<!-- simple login form -->
 				<div class="container">
-					<div class="wrapper">
-						<div class="alert alert-success">Registered Successfully, <a href="index.php">Login</a></div>
+					<div class="form-position">
+						<div class="alert alert-success">Uspiješno ste registrirani, <a href="index.php">Prijava</a></div>
 					</div>
 				</div>
 			</body>

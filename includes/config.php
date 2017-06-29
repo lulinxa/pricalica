@@ -1,7 +1,7 @@
 <?php
   $con = mysql_connect('localhost', 'chat', 'chat');
-   mysql_select_db("chatroom", $con);
+   mysql_select_db("pricalica", $con);
    if (!$con) {
-     die('Could not connect: ' . mysql_error()); 
+     die('Could not connect: ' . mysql_error());
    }
 ?>

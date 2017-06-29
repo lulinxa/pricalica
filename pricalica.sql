@@ -17,13 +17,15 @@
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `chatroom`
+-- Database: `pricalica`
 --
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `chat_messages`
+--
+
 --
 
 CREATE TABLE IF NOT EXISTS `chat_messages` (
@@ -70,18 +72,6 @@ CREATE TABLE IF NOT EXISTS `stud_data` (
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `user_status`
---
-
-CREATE TABLE IF NOT EXISTS `user_status` (
-  `id` bigint(10) NOT NULL AUTO_INCREMENT,
-  `enroll` int(8) NOT NULL,
-  `writing` varchar(3) NOT NULL DEFAULT 'no',
-  `time` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `enroll` (`enroll`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

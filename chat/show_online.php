@@ -37,7 +37,7 @@ if(check_login()==true) {
 			<!-- simple login form -->
 			<div class="container">
 				<div class="wrapper">
-					<div class="alert alert-error">Invalid Username/Password, please <a href='../'>login </a>again</div>
+					<div class="alert alert-error">Neispravno id/zaporka, molimo probajte se <a href='../'>prijaviti </a>ponovo</div>
 				</div>
 			</div>
 		</body>
